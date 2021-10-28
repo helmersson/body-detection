@@ -56,7 +56,6 @@ class FlowFieldEffect {
 
     }
     #draw(x, y) {
-        
         const length = 300;
         this.#ctx.beginPath();
         this.#ctx.moveTo(x,y);
@@ -80,7 +79,7 @@ async function run(canvas, status) {
   
     // create a video element connected to the camera 
     status.innerText = 'Setting up camera feed...'
-    const video = await createCameraFeed(window.innerWidth, window.innerHeight, facingMode.environment)
+    const video = await createCameraFeed(canvas.width, canvas.height, facingMode.environment)
   
     const config = {
       video: video,
