@@ -4,7 +4,7 @@ let flowField;
 let flowFieldAnimation;
 
 window.onload = function(){
-    canvas = document.getElementById('canvas1');
+    canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -21,15 +21,17 @@ window.addEventListener('resize', function(){
     flowField.animate(0);
 });
 
-const mouse = {
+const nose = {
     x: 0,
     y: 0,
 }
-window.addEventListener('mousemove', function(e){
-    mouse.x = e.x;
-    mouse.y = e.y;
-})
+function getNoseX(body){
+    let nose = body.getBodyPart2D(bodyPartsList.nose);
+    nose.x = nose.position.x
+    nose.y = nose.position.y
+}
 
+mouse.x
 class FlowFieldEffect {
     #ctx;
     #width;
@@ -103,3 +105,29 @@ class FlowFieldEffect {
 
     }
 }
+
+async function run(canvas, status) {
+    let latestBody
+  
+    // create a video element connected to the camera 
+    status.innerText = 'Setting up camera feed...'
+    const video = await createCameraFeed(window.innerWidth, window.innerHeight, facingMode.environment)
+  
+    const config = {
+      video: video,
+      multiPose: false,
+      sampleRate: 100,
+      flipHorizontal: true // true if webcam
+    }
+
+    status.innerText = 'Loading model...'
+    // start detecting bodies camera-feed a set latestBody to first (and only) body
+    detectBodies(config, (e) => latestBody = e.detail.bodies.listOfBodies[0])
+  
+    // draw video with nose and eyes overlaid onto canvas continuously and output speed of nose
+    continuosly(() => {
+        if (latestBody)
+          getNoseX(latestBody);
+    })
+  }
+  export { run }

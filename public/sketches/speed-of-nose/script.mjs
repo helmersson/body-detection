@@ -16,7 +16,7 @@ function drawNoseAndEyes(canvas, body) {
     const nose = body.getBodyPart2D(bodyPartsList.nose)
     const leftEye = body.getBodyPart2D(bodyPartsList.leftEye)
     const rightEye = body.getBodyPart2D(bodyPartsList.rightEye)
-
+    console.log(nose.position.x, nose.position.y);
     // nose
     drawSolidCircle(canvas, nose.position.x, nose.position.y, 10, 'red')
 
